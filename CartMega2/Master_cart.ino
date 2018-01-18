@@ -1,31 +1,10 @@
 // https://www.dimensionengineering.com/products/sabertooth2x12
 //i2c Master Code(UNO)
-void loop()
-{
-  while(Serial.available())
-  {
-    char c = Serial.read();
-
-    if(c == 'H')
-    {
-      Wire.beginTransmission(5);
-      Wire.write('H');
-      Wire.endTransmission();
-    }
-    else if(c == 'L')
-    {
-      Wire.beginTransmission(5);
-      Wire.write('L');
-      Wire.endTransmission();
-    }
-  }
-}
-
 #include <Wire.h>
 #include <SPI.h>
 #include <SoftwareSerial.h>
 #include <Sabertooth.h>
-
+bool evenOdd = false;
 // Sabertooth Related
 SoftwareSerial SWSerial(31, 27);  // RX on pin 2 (unused), TX on pin 3 (to S1).
 Sabertooth ST(128, SWSerial);     // Address 128, and use SWSerial as the serial port.
@@ -192,6 +171,10 @@ void setup() {
  clearEncoderCount();  Serial.println("Encoders Cleared...");
  ST.motor(1, sabPower);
  ST.motor(2, sabPower);
+
+ Wire.beginTransmission(5);
+ Wire.write('S');
+ Wire.endTransmission();
 }
 long until = 2500;
 long pipeLength = 12500;
@@ -200,6 +183,15 @@ signed long encDis1=0,encDis2=0;
 void loop() {
   encoder1count = readEncoder(1);
   encoder2count = readEncoder(2);
+
+  Wire.beginTransmission(5);
+  if(evenOdd == true)
+  Wire.write('L');
+  else
+  Wire.write('R');
+  Wire.endTransmission();
+
+  evenOdd = !evenOdd;
 
   if(flag == true)
   {

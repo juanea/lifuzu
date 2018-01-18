@@ -34,18 +34,18 @@ void initSabertooth() {
 }
 
 void initEncoders() {
-  
+
   // Set slave selects as outputs
   pinMode(slaveSelectEnc1, OUTPUT);
   pinMode(slaveSelectEnc2, OUTPUT);
-  
+
   // Raise select pins
   // Communication begins when you drop the individual select signsl
   digitalWrite(slaveSelectEnc1,HIGH);
   digitalWrite(slaveSelectEnc2,HIGH);
-  
+
   SPI.begin();
-  
+
   // Initialize encoder 1
   //    Clock division factor: 0
   //    Negative index input
@@ -55,7 +55,7 @@ void initEncoders() {
   digitalWrite(slaveSelectEnc1,LOW);        // Begin SPI conversation
   SPI.transfer(0x88);                       // Write to MDR0
   SPI.transfer(0x03);                       // Configure to 4 byte mode
-  digitalWrite(slaveSelectEnc1,HIGH);       // Terminate SPI conversation 
+  digitalWrite(slaveSelectEnc1,HIGH);       // Terminate SPI conversation
 
   // Initialize encoder 2
   //    Clock division factor: 0
@@ -66,49 +66,49 @@ void initEncoders() {
   digitalWrite(slaveSelectEnc2,LOW);        // Begin SPI conversation
   SPI.transfer(0x88);                       // Write to MDR0
   SPI.transfer(0x03);                       // Configure to 4 byte mode
-  digitalWrite(slaveSelectEnc2,HIGH);       // Terminate SPI conversation 
+  digitalWrite(slaveSelectEnc2,HIGH);       // Terminate SPI conversation
 }
 
 void initUtrasonic(){
    // initialize the pulse pin as output:
-  pinMode(Trig_pin, OUTPUT);      
+  pinMode(Trig_pin, OUTPUT);
   // initialize the echo_pin pin as an input:
-  pinMode(Echo_pin, INPUT);     
+  pinMode(Echo_pin, INPUT);
 }
 
 long readEncoder(int encoder) {
-  
+
   // Initialize temporary variables for SPI read
   unsigned int count_1, count_2, count_3, count_4;
-  long count_value;  
-  
+  long count_value;
+
   // Read encoder 1
   if (encoder == 1) {
     digitalWrite(slaveSelectEnc1,LOW);      // Begin SPI conversation
     SPI.transfer(0x60);                     // Request count
     count_1 = SPI.transfer(0x00);           // Read highest order byte
-    count_2 = SPI.transfer(0x00);           
-    count_3 = SPI.transfer(0x00);           
+    count_2 = SPI.transfer(0x00);
+    count_3 = SPI.transfer(0x00);
     count_4 = SPI.transfer(0x00);           // Read lowest order byte
-    digitalWrite(slaveSelectEnc1,HIGH);     // Terminate SPI conversation 
+    digitalWrite(slaveSelectEnc1,HIGH);     // Terminate SPI conversation
   }
-  
+
   // Read encoder 2
   else if (encoder == 2) {
     digitalWrite(slaveSelectEnc2,LOW);      // Begin SPI conversation
     SPI.transfer(0x60);                      // Request count
     count_1 = SPI.transfer(0x00);           // Read highest order byte
-    count_2 = SPI.transfer(0x00);           
-    count_3 = SPI.transfer(0x00);           
+    count_2 = SPI.transfer(0x00);
+    count_3 = SPI.transfer(0x00);
     count_4 = SPI.transfer(0x00);           // Read lowest order byte
-    digitalWrite(slaveSelectEnc2,HIGH);     // Terminate SPI conversation 
+    digitalWrite(slaveSelectEnc2,HIGH);     // Terminate SPI conversation
   }
-  
+
   // Calculate encoder count
   count_value = (count_1 << 8) + count_2;
   count_value = (count_value << 8) + count_3;
   count_value = (count_value << 8) + count_4;
-  
+
   return count_value;
 }
 
@@ -120,50 +120,50 @@ long readUltrasonic(){
   digitalWrite(Trig_pin, LOW);
   long readUltrasonicRangeFinder = pulseIn(Echo_pin,HIGH);
   return readUltrasonicRangeFinder;
-} 
+}
 
 void clearEncoderCount() {
   // Set encoder1's data register to 0
-  digitalWrite(slaveSelectEnc1,LOW);      // Begin SPI conversation  
+  digitalWrite(slaveSelectEnc1,LOW);      // Begin SPI conversation
   // Write to DTR
-  SPI.transfer(0x98);    
+  SPI.transfer(0x98);
   // Load data
   SPI.transfer(0x00);  // Highest order byte
-  SPI.transfer(0x00);           
-  SPI.transfer(0x00);           
+  SPI.transfer(0x00);
+  SPI.transfer(0x00);
   SPI.transfer(0x00);  // lowest order byte
-  digitalWrite(slaveSelectEnc1,HIGH);     // Terminate SPI conversation 
-  
+  digitalWrite(slaveSelectEnc1,HIGH);     // Terminate SPI conversation
+
   delayMicroseconds(100);  // provides some breathing room between SPI conversations
-  
+
   // Set encoder1's current data register to center
-  digitalWrite(slaveSelectEnc1,LOW);      // Begin SPI conversation  
-  SPI.transfer(0xE0);    
-  digitalWrite(slaveSelectEnc1,HIGH);     // Terminate SPI conversation   
-  
+  digitalWrite(slaveSelectEnc1,LOW);      // Begin SPI conversation
+  SPI.transfer(0xE0);
+  digitalWrite(slaveSelectEnc1,HIGH);     // Terminate SPI conversation
+
   // Set encoder2's data register to 0
-  digitalWrite(slaveSelectEnc2,LOW);      // Begin SPI conversation  
+  digitalWrite(slaveSelectEnc2,LOW);      // Begin SPI conversation
   // Write to DTR
-  SPI.transfer(0x98);    
+  SPI.transfer(0x98);
   // Load data
   SPI.transfer(0x00);  // Highest order byte
-  SPI.transfer(0x00);           
-  SPI.transfer(0x00);           
+  SPI.transfer(0x00);
+  SPI.transfer(0x00);
   SPI.transfer(0x00);  // lowest order byte
-  digitalWrite(slaveSelectEnc2,HIGH);     // Terminate SPI conversation 
-  
+  digitalWrite(slaveSelectEnc2,HIGH);     // Terminate SPI conversation
+
   delayMicroseconds(100);  // provides some breathing room between SPI conversations
-  
+
   // Set encoder2's current data register to center
-  digitalWrite(slaveSelectEnc2,LOW);      // Begin SPI conversation  
-  SPI.transfer(0xE0);    
-  digitalWrite(slaveSelectEnc2,HIGH);     // Terminate SPI conversation 
+  digitalWrite(slaveSelectEnc2,LOW);      // Begin SPI conversation
+  SPI.transfer(0xE0);
+  digitalWrite(slaveSelectEnc2,HIGH);     // Terminate SPI conversation
 }
 
 void setup() {
  Serial.begin(9600);      // Serial com for data output
  initSabertooth();     Serial.println("Sabertooth Initialized...");
- initEncoders();       Serial.println("Encoders Initialized...");  
+ initEncoders();       Serial.println("Encoders Initialized...");
  initUtrasonic();      Serial.println("Ultrasonic Range Finder Initialized...");
  clearEncoderCount();  Serial.println("Encoders Cleared...");
  ST.motor(1, sabPower);
@@ -174,9 +174,9 @@ long pipeLength = 12500;
 signed long encDis1=0,encDis2=0;
 
 void loop() {
-  encoder1count = readEncoder(1); 
+  encoder1count = readEncoder(1);
   encoder2count = readEncoder(2);
-  
+
   if(flag == true)
   {
     if(encoder1count >= pipeLength || encoder2count >= pipeLength)
@@ -208,13 +208,13 @@ void loop() {
    //   ST.motor(2, sabPower);
     }
   }
-  
+
 //  Serial.print("Duration: ");
 //  Serial.print(duration);
   Serial.print(" Encoder1: ");
   Serial.print(encoder1count);
   Serial.print(" Encoder2: ");
   Serial.println(encoder2count);
-    
+
   delay(25);
 }
