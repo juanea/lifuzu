@@ -176,8 +176,8 @@ void setup() {
  Wire.write('S');
  Wire.endTransmission();
 }
-long until = 200;//2500;
-long pipeLength = 3000;//12500;
+long until = 20;//2500;
+long pipeLength = 300;//12500;
 signed long encDis1=0,encDis2=0;
 
 void loop() {
@@ -195,14 +195,14 @@ void loop() {
       ST.motor(1, -sabPower);
       ST.motor(2, -sabPower);
     }
-    else if(encoder1count >= until || encoder2count>= until)
+    else if(encoder1count >= until || encoder2count >= until)
     {
        ST.motor(1, 0);
        ST.motor(2, 0);
        delay(3000);
        ST.motor(1,sabPower);
        ST.motor(2, sabPower);
-       until+=200;//2500;
+       until+=20;//2500;
 
        Wire.beginTransmission(5);
        if(evenOdd == true)
