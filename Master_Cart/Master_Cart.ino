@@ -169,15 +169,15 @@ void setup() {
  initEncoders();       Serial.println("Encoders Initialized...");
  initUtrasonic();      Serial.println("Ultrasonic Range Finder Initialized...");
  clearEncoderCount();  Serial.println("Encoders Cleared...");
- ST.motor(1, sabPower);
- ST.motor(2, sabPower);
+ //ST.motor(1, sabPower);
+ //ST.motor(2, sabPower);
 
  Wire.beginTransmission(5);
  Wire.write('S');
  Wire.endTransmission();
 }
-long until = 20;//2500;
-long pipeLength = 300;//12500;
+long until = 2500;
+long pipeLength = 12500;
 signed long encDis1=0,encDis2=0;
 
 void loop() {
@@ -186,6 +186,11 @@ void loop() {
 
   if(flag == true)
   {
+    if(encoder1count+encoder2count == 0)
+    {
+      ST.motor(1, sabPower);
+      ST.motor(2, sabPower);
+    }
     if(encoder1count >= pipeLength || encoder2count >= pipeLength)
     {
       flag = false;
@@ -202,7 +207,7 @@ void loop() {
        delay(3000);
        ST.motor(1,sabPower);
        ST.motor(2, sabPower);
-       until+=20;//2500;
+       until+=2500;
 
        Wire.beginTransmission(5);
        if(evenOdd == true)
