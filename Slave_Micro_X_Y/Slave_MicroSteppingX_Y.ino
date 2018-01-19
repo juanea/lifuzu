@@ -171,11 +171,11 @@ void receiveEvent(int howMany)
     }
     else if(c == 'L')
     {
-      step(true,half180,dirY,stepY);
+      step(true,half180,dirX,stepX);
     }
     else if (c == 'R')
     {
-      step(false,half180,dirY,stepY);
+      step(false,half180,dirX,stepX);
     }
   }
 }
