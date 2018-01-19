@@ -184,14 +184,7 @@ void loop() {
   encoder1count = readEncoder(1);
   encoder2count = readEncoder(2);
 
-  Wire.beginTransmission(5);
-  if(evenOdd == true)
-  Wire.write('L');
-  else
-  Wire.write('R');
-  Wire.endTransmission();
 
-  evenOdd = !evenOdd;
 
   if(flag == true)
   {
@@ -212,6 +205,14 @@ void loop() {
        ST.motor(1,sabPower);
        ST.motor(2, sabPower);
        until+=2500;
+       Wire.beginTransmission(5);
+       if(evenOdd == true)
+       Wire.write('L');
+       else
+       Wire.write('R');
+       Wire.endTransmission();
+
+       evenOdd = !evenOdd;
     }
   }
   else{
