@@ -35,6 +35,7 @@ void setup() {
  Serial.begin(115200);
  Wire.begin(5);
  Wire.onReceive(receiveEvent);
+ Wire.onRequest(requestEvent);
   //  readSerial();
 }
 
@@ -171,11 +172,15 @@ void receiveEvent(int howMany)
     }
     else if(c == 'L')
     {
-      step(true,half180,dirX,stepX);
+      step(true,4*half180,dirX,stepX);
     }
     else if (c == 'R')
     {
-      step(false,half180,dirX,stepX);
+      step(false,4*half180,dirX,stepX);
     }
   }
+}
+void requestEvent()
+{
+  Wire.write("b");
 }

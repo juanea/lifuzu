@@ -222,6 +222,14 @@ void loop()
        Wire.write('R');
        Wire.endTransmission();
 
+       char wait = 'a';
+      while(wait == 'a')
+      {
+        Wire.requestFrom(5,10);
+
+        while(Wire.available())
+          wait = Wire.read();
+      }
        evenOdd = !evenOdd;
        Serial.println("Move steppers");
     }
