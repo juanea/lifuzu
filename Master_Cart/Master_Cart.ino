@@ -190,6 +190,7 @@ void loop() {
     {
       ST.motor(1, sabPower);
       ST.motor(2, sabPower);
+      Serial.prinln("start_forward");
     }
     if(encoder1count >= pipeLength || encoder2count >= pipeLength)
     {
@@ -199,6 +200,7 @@ void loop() {
       delay(2000);
       ST.motor(1, -sabPower);
       ST.motor(2, -sabPower);
+      Serial.prinln("Start_backwards");
     }
     else if(encoder1count >= until || encoder2count >= until)
     {
@@ -217,6 +219,7 @@ void loop() {
        Wire.endTransmission();
 
        evenOdd = !evenOdd;
+       Serial.println("Move steppers");
     }
   }
   else{
@@ -224,6 +227,7 @@ void loop() {
     //  flag = true;
       ST.motor(1, 0);
       ST.motor(2, 0);
+      Serial.println("The end");
   //    delay(2000);
    //   ST.motor(1, sabPower);
    //   ST.motor(2, sabPower);
