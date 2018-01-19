@@ -28,7 +28,6 @@ long duration;
 
 int sabPower = 65;
 
-bool flag = true;
 
 void initSabertooth() {
   SWSerial.begin(9600);
@@ -166,7 +165,8 @@ void setup() {
  Serial.begin(9600);      // Serial com for data output
  Wire.begin();
  initSabertooth();     Serial.println("Sabertooth Initialized...");
- initEncoders();       Serial.println("Encoders Initialized...");
+ initEncoders();
+    Serial.println("Encoders Initialized...");
  initUtrasonic();      Serial.println("Ultrasonic Range Finder Initialized...");
  clearEncoderCount();  Serial.println("Encoders Cleared...");
  //ST.motor(1, sabPower);
@@ -176,11 +176,15 @@ void setup() {
  Wire.write('S');
  Wire.endTransmission();
 }
-long until = 2500;
-long pipeLength = 12500;
-signed long encDis1=0,encDis2=0;
 
-void loop() {
+long until = 200;
+long pipeLength = 1600;
+signed long encDis1=0,encDis2=0;
+bool flag = true;
+
+void loop()
+{
+
   encoder1count = readEncoder(1);
   encoder2count = readEncoder(2);
 
@@ -209,7 +213,7 @@ void loop() {
        delay(3000);
        ST.motor(1,sabPower);
        ST.motor(2, sabPower);
-       until+=2500;
+       until+=200;
 
        Wire.beginTransmission(5);
        if(evenOdd == true)
