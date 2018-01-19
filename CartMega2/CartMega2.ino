@@ -169,11 +169,13 @@ void setup() {
  ST.motor(1, sabPower);
  ST.motor(2, sabPower);
 }
+
 long until = 2500;
 long pipeLength = 12500;
 signed long encDis1=0,encDis2=0;
 
 void loop() {
+
   encoder1count = readEncoder(1);
   encoder2count = readEncoder(2);
 
