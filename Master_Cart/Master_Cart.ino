@@ -190,7 +190,7 @@ void loop() {
     {
       ST.motor(1, sabPower);
       ST.motor(2, sabPower);
-      Serial.prinln("start_forward");
+      Serial.println("start_forward");
     }
     if(encoder1count >= pipeLength || encoder2count >= pipeLength)
     {
@@ -200,7 +200,7 @@ void loop() {
       delay(2000);
       ST.motor(1, -sabPower);
       ST.motor(2, -sabPower);
-      Serial.prinln("Start_backwards");
+      Serial.println("Start_backwards");
     }
     else if(encoder1count >= until || encoder2count >= until)
     {
