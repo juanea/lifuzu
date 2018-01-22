@@ -162,6 +162,7 @@ void clearEncoderCount() {
 }
 
 void setup() {
+
  Serial.begin(9600);      // Serial com for data output
  Wire.begin();
  initSabertooth();     Serial.println("Sabertooth Initialized...");
@@ -219,10 +220,6 @@ void loop()
     {
        ST.motor(1, 0);
        ST.motor(2, 0);
-       delay(3000);
-       ST.motor(1,sabPower);
-       ST.motor(2, sabPower);
-       until+=1000;
 
        Wire.beginTransmission(5);
        if(evenOdd == true)
@@ -241,6 +238,10 @@ void loop()
       }
        evenOdd = !evenOdd;
        Serial.println("Move steppers");
+
+       ST.motor(1,sabPower);
+       ST.motor(2, sabPower);
+       until+=1000;
     }
   }
   else{
