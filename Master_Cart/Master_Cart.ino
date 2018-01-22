@@ -177,8 +177,8 @@ void setup() {
  Wire.endTransmission();
 }
 
-long until = 200;
-long pipeLength = 1600;
+long until = 1000;
+long pipeLength = 16000;
 signed long encDis1=0,encDis2=0;
 bool flag = true;
 
@@ -213,7 +213,7 @@ void loop()
        delay(3000);
        ST.motor(1,sabPower);
        ST.motor(2, sabPower);
-       until+=200;
+       until+=1000;
 
        Wire.beginTransmission(5);
        if(evenOdd == true)
