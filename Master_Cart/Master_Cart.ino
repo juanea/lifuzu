@@ -187,8 +187,8 @@ void setup() {
   }
 }
 
-long until = 10000;
-long pipeLength = 160000;
+long until = 5000;
+long pipeLength = 80000;
 signed long encDis1=0,encDis2=0;
 bool flag = true;
 
@@ -241,7 +241,7 @@ void loop()
 
        ST.motor(1,sabPower);
        ST.motor(2, sabPower);
-       until+=10000;
+       until+=5000;
     }
   }
   else{
