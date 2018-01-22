@@ -175,10 +175,19 @@ void setup() {
  Wire.beginTransmission(5);
  Wire.write('S');
  Wire.endTransmission();
+
+   char wait = 'a';
+  while(wait == 'a')
+  {
+    Wire.requestFrom(5,10);
+
+    while(Wire.available())
+      wait = Wire.read();
+  }
 }
 
 long until = 1000;
-long pipeLength = 16000;
+long pipeLength = 160000;
 signed long encDis1=0,encDis2=0;
 bool flag = true;
 
