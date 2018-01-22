@@ -2,7 +2,6 @@
 #include <Wire.h>
 #include <PID_v1.h>
 
-int eee;
 int dirY = 6;
 int stepY = 3;
 int dirX = 5;
